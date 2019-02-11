@@ -10,6 +10,7 @@ Things to learn:
 5. Basics of Neural Network - http://neuralnetworksanddeeplearning.com/ 3 chapters 
 6. Understading the core of CNN and Nural Nets 
 7. Combination of each image aka [Euiclidan Distance I guess]
+\n
 Research to do: 
 1. Find some papers on human gesture from image 
 2. Find Dataset
