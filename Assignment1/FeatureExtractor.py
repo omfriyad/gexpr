@@ -1,6 +1,6 @@
 import numpy as np
 from numpy import arctan2
-
+from matplotlib import pyplot as plt
 
 class FeatureExtractor(object):
 
@@ -9,7 +9,6 @@ class FeatureExtractor(object):
 
     def extract_feature(self):
         return self.img.reshape(-1)
-
 
 
     """ 
@@ -21,12 +20,42 @@ class FeatureExtractor(object):
 
 class ColourHistogramExtractor(FeatureExtractor):
     """docstring for ColourHistogramExtractor"""
-    def __init__(self, img):
-        super(FeatureExtractor, self).__init__()
+    def __init__(self,img):
+        super(ColourHistogramExtractor, self).__init__(img)
         self.img = img
 
-    def extract_feature(self):
-        pass
+
+    def fre(self,color):
+        fre = np.array([])
+        for i in range(256):
+            fre = np.append(fre, np.count_nonzero(color == i))
+        total = np.sum(fre)
+        fre = fre/total
+        return fre
+
+
+    def colorHis(self):
+
+        self.img = self.img*255
+        self.img = self.img.astype(int)
+
+        r,g,b = self.img[...,0],self.img[...,1],self.img[...,2]
+
+        freR = self.fre(r)
+        freG = self.fre(g)
+        freB = self.fre(b)
+
+        freFinal = np.maximum.reduce([freR,freG,freB])
+
+        plt.plot(freR,color="Red")
+        plt.plot(freG,color="Green")
+        plt.plot(freB,color="Blue")
+        plt.plot(freFinal,color="Black")
+
+        plt.ylabel('Frequency')
+        plt.show()
+
+        return freFinal
 
 
 class HoGExtractor(FeatureExtractor):
