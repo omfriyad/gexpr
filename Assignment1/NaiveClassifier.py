@@ -1,4 +1,4 @@
-from FeatureExtractor import FeatureExtractor
+
 
 class NaiveClassifier:
 
@@ -19,15 +19,14 @@ class NaiveClassifier:
 
 	""" 
 	extract feature from single image, which should accept an image 
-	as pa- rameter. The image is a (number of channels, x dim, y dim) numpy array. 
+	as parameter. The image is a (number of channels, x dim, y dim) numpy array. 
 	This method should return the feature extracted by calling the 
 	extract feature method of the FeatureExtractor object.
 	"""
-	def extract_feature_from_single_image(self):
-		pass
 
-
-
+	def extract_feature_from_single_image(self,img):
+		self.feature = self.feature(img)
+		return self.feature.extract_feature()
 
 
 	"""
@@ -35,7 +34,7 @@ class NaiveClassifier:
 	(number of images, number of channels, x dim, y dim) numpy array 
 	as parameter and return a (number of images, feature dim) array.
 	"""
-	def extract_feature_from_single_image(self):
+	def extract_feature_from_multiple_images(self):
 		pass
 
 
@@ -57,7 +56,7 @@ class NaiveClassifier:
 	classify multiple images, which will accept multiple images as 
 	parameter and return a list of label values and a list of scores.
 	"""
-	def classify_multiple_image(self):
+	def classify_multiple_images(self):
 		pass 
 
 

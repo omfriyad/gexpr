@@ -20,10 +20,9 @@ class FeatureExtractor(object):
 
 class ColourHistogramExtractor(FeatureExtractor):
     """docstring for ColourHistogramExtractor"""
+
     def __init__(self,img):
         super(ColourHistogramExtractor, self).__init__(img)
-        #elf.img = img
-
 
     def fre(self,color):
         fre = np.array([])
@@ -34,7 +33,7 @@ class ColourHistogramExtractor(FeatureExtractor):
         return fre
 
 
-    def colorHis(self):
+    def extract_feature(self):
 
         self.img = self.img*255
         self.img = self.img.astype(int)

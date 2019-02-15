@@ -22,8 +22,22 @@ for i in range(len(arr)):
 imgD = np.array( imgD )
 
 
+#number of images, number of channels, x dim, y dim
+trainImg = imgD.transpose(0,3,1,2)
+#print(trainImg.shape)
+
+
+#training label
+trainLabel = np.array([0,0,0,1,1])
+
+
 #object init
-f1 = ColourHistogramExtractor(imgD[0])
-colorhistogram = f1.colorHis()
-print(colorhistogram.shape)
+feature1 = ColourHistogramExtractor
+# colorhistogram = f1.colorHis()
+# print(colorhistogram.shape)
+
+imgClass = NaiveClassifier(trainImg,trainLabel,feature1)
+i = imgClass.extract_feature_from_single_image(imgD[0])
+# imgClass.h()
+
 
