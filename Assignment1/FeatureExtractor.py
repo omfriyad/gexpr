@@ -46,13 +46,13 @@ class ColourHistogramExtractor(FeatureExtractor):
 
         freFinal = np.maximum.reduce([freR,freG,freB])
 
-        plt.plot(freR,color="Red")
-        plt.plot(freG,color="Green")
-        plt.plot(freB,color="Blue")
-        plt.plot(freFinal,color="Black")
+        # plt.plot(freR,color="Red")
+        # plt.plot(freG,color="Green")
+        # plt.plot(freB,color="Blue")
+        # plt.plot(freFinal,color="Black")
 
-        plt.ylabel('Frequency')
-        plt.show()
+        # plt.ylabel('Frequency')
+        # plt.show()
 
         return freFinal
 

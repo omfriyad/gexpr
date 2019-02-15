@@ -1,4 +1,5 @@
 
+import numpy as np
 
 class NaiveClassifier:
 
@@ -11,11 +12,10 @@ class NaiveClassifier:
 	2. Training labels. This should be a (number of images, 1) numpy array.
     3. An object of type FeatureExtractor
 	"""
-	def __init__(self, trainImg, trainLabel, feature):
-	    self.trainImg = trainImg
-	    self.trainLabel = trainLabel
+	def __init__(self, train_img, train_label, feature):
+	    self.train_img = train_img
+	    self.train_label = train_label
 	    self.feature = feature
-
 
 	""" 
 	extract feature from single image, which should accept an image 
@@ -40,30 +40,68 @@ class NaiveClassifier:
 
 
 
-
 	"""
 	classify single image, which will accept an image as parameter 
 	and return a label value and the corresponding score.
 	"""
-	def classify_single_image(self):
+	def classify_single_image(self,img):
+
+
+		def euclidean_distance(x, y):
+		    distance = np.sum(np.square(x-y))
+		    return np.sqrt(distance)
 		
-		def (vector1, vector2):
-		    return np.sqrt(np.sum(np.power(vector1-vector2, 2)))
-		def absolute_distance(vector1, vector2):
-		    return np.sum(np.absolute(vector1-vector2))
+		distances = np.array([])
+		neighbors = np.array([])
+		label_index = np.array([])
 
+		img = self.feature(img).extract_feature()
+
+		for x in self.train_img:
+			x = self.feature(x).extract_feature()
+			dist = euclidean_distance(img,x)
+			distances = np.append(distances, dist)
+
+		prediction = np.argsort(distances)
+		distances = np.sort(distances)
+
+		# Naive 1NN Classifier , so k = 1
+		k=1
+
+		for x in range(k):
+			neighbors = np.append(neighbors,distances[x])
+			label_index = np.append(label_index,prediction[x])
+
+		label_index = label_index.astype(int)
+		label_value = self.train_label[label_index][0]
+
+		return label_value,neighbors
 		
-
-
-
-
 
 	"""
 	classify multiple images, which will accept multiple images as 
 	parameter and return a list of label values and a list of scores.
 	"""
-	def classify_multiple_images(self):
-		pass 
+	def classify_multiple_images(self,imgs):
+		
+		neighbors = np.array([])
+		label_index = np.array([])
+		label_value = np.array([])
+
+		for x in imgs:
+			l,n = self.classify_single_image(x)
+			neighbors = np.append(neighbors,n)
+			label_index = np.append(label_index,l)
+
+		label_index = label_index.astype(int)
+
+		for x in label_index:
+			label_value = np.append(label_value, self.train_label[x])
+
+		return label_index,neighbors
+
+
+
 
 
 
