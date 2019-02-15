@@ -46,7 +46,13 @@ class NaiveClassifier:
 	and return a label value and the corresponding score.
 	"""
 	def classify_single_image(self):
-		pass 
+		
+		def (vector1, vector2):
+		    return np.sqrt(np.sum(np.power(vector1-vector2, 2)))
+		def absolute_distance(vector1, vector2):
+		    return np.sum(np.absolute(vector1-vector2))
+
+		
 
 
 

@@ -39,7 +39,7 @@ class ColourHistogramExtractor(FeatureExtractor):
         self.img = self.img*255
         self.img = self.img.astype(int)
 
-        r,g,b = self.img[...,0],self.img[...,1],self.img[...,2]
+        r,g,b = self.img[0],self.img[1],self.img[2]
 
         freR = self.fre(r)
         freG = self.fre(g)
