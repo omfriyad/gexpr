@@ -93,5 +93,5 @@ class HoGExtractor(FeatureExtractor):
         return np.rad2deg(arctan2(gx, gy))%180 #returning in 180 degree
 
     def hog(self):
-        pass
+        return self.magnitude() # dummy
 
