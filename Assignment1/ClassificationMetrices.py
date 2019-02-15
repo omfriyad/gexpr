@@ -7,7 +7,7 @@ class ClassificationMetrices:
 		a list of testing labels as parameter. It should also 
 		construct the confusion matrix and cache this information.
 	"""
-	def __init__(self,trainLabel,testLabel):
+	def __init__(self, trainLabel, testLabel):
 		self.trainLabel = trainLabel
 		self.testLabel = testLabel
 
@@ -18,7 +18,7 @@ class ClassificationMetrices:
 	2. get_confusion_matrix_for_heatmap: 
 		Returns a 0−1 normalized confusion matrix.
 	"""
-	def get_confusion_matrix_for_heatmap():
+	def get_confusion_matrix_for_heatmap(self):
 		pass
 
 
@@ -28,7 +28,7 @@ class ClassificationMetrices:
 		Calculate and return the accuracy of the predictions. 
 		It should return a value in the range 0 − 1.
 	"""
-	def calculate_accuracy():
+	def calculate_accuracy(self):
 		pass
 
 
@@ -38,7 +38,7 @@ class ClassificationMetrices:
 	4. calculate_precision:
 		Calculate and return the average precision. 
 	"""
-	def calculate_precision():
+	def calculate_precision(self):
 		pass
 
 
@@ -47,7 +47,7 @@ class ClassificationMetrices:
 	5. calculate_recall:
 		Calculate and return the average recall. 
 	"""
-	def calculate_recall():
+	def calculate_recall(self):
 		pass
 
 
@@ -56,7 +56,7 @@ class ClassificationMetrices:
 	6. calculate_f1:
 		Calculate and return the F1 score.
 	"""
-	def calculate_f1():
+	def calculate_f1(self):
 		pass
 
 
@@ -68,7 +68,7 @@ class ClassificationMetrices:
 		then calculate and return the ROC values in a list of lists. 
 		A list per threshold value per class.
 	"""
-	def calculate_roc_values():
+	def calculate_roc_values(self):
 		pass
 
 
@@ -77,7 +77,7 @@ class ClassificationMetrices:
 	8. calculate_lift_values: 
 		Similar to calculate roc values, but calculates lift values.
 	"""
-	def calculate_lift_values():
+	def calculate_lift_values(self):
 		pass
 
 
