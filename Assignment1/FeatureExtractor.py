@@ -29,49 +29,40 @@ class ColourHistogramExtractor(FeatureExtractor):
         pass
 
 
+
 class HoGExtractor(FeatureExtractor):
     """This is hog extractor """
     def __init__(self, img):
         super(HoGExtractor, self).__init__(img=img)
         self.img = img
 
+    def extract_feature(self):
+        return self.hog()
 
-    def gradient(self, image, same_size=False):
-        sy, sx = image.shape
-        if same_size:
-            gx = np.zeros(image.shape)
-            gx[:, 1:-1] = -image[:, :-2] + image[:, 2:]
-            gx[:, 0] = -image[:, 0] + image[:, 1]
-            gx[:, -1] = -image[:, -2] + image[:, -1]
+    def gradient(self):
+        """THis will return a same size of image gradient for HOG"""
+        gx = np.zeros(self.img.shape)
+        gx[:, 1:-1] = -self.img[:, :-2] + self.img[:, 2:]
+        gx[:, 0] = -self.img[:, 0] + self.img[:, 1]
+        gx[:, -1] = -self.img[:, -2] + self.img[:, -1]
 
-            gy = np.zeros(image.shape)
-            gy[1:-1, :] = image[:-2, :] - image[2:, :]
-            gy[0, :] = image[0, :] - image[1, :]
-            gy[-1, :] = image[-2, :] - image[-1, :]
-
-        else:
-            gx = np.zeros((sy - 2, sx - 2))
-            gx[:, :] = -image[1:-1, :-2] + image[1:-1, 2:]
-
-            gy = np.zeros((sy - 2, sx - 2))
-            gy[:, :] = image[:-2, 1:-1] - image[2:, 1:-1]
+        gy = np.zeros(self.img.shape)
+        gy[1:-1, :] = self.img[:-2, :] - self.img[2:, :]
+        gy[0, :] = self.img[0, :] - self.img[1, :]
+        gy[-1, :] = self.img[-2, :] - self.img[-1, :]
 
         return gx, gy
 
+    def magnitude(self):
+        gx , gy = self.gradient()
 
-    def magnitude_orientation(self, gx, gy):
-        magnitude = np.sqrt(gx ** 2 + gy ** 2)
-        orientation = np.rad2deg(arctan2(gy, gx)) % 180  #This operation results the into 180
+        return np.sqrt(gx**2, gy**2)
 
-        return magnitude, orientation
+    def orientation(self):
+        gx , gy = self.gradient()
 
-    def histogram_from_gradients(self, gx, gy, cell_size, cell_per_block, signed_orientation, nbins, visualize, normalise,
-                                 flatten, same_size):
+        return np.rad2deg(arctan2(gx, gy))%180 #returning in 180 degree
 
-
+    def hog(self):
         pass
 
-
-
-    def histogram_of_gradient(self):
-        pass
