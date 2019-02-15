@@ -3,15 +3,15 @@ class ClassificationMetrices:
 
 	"""
 	1. __init__ :  
-		This method should accept a list of training labels and 
-		a list of testing labels as parameter. It should also 
-		construct the confusion matrix and cache this information.
+		This method should accept a list of training labels, 
+		a list of predicted labels, and a list of predicted scores 
+		as parameter. It should also construct the confusion matrix 
+		and cache this information.
 	"""
-	def __init__(self, trainLabel, testLabel):
-		self.trainLabel = trainLabel
-		self.testLabel = testLabel
-
-
+	def __init__(self, train_label, test_label,predicted_score):
+		self.train_label = train_label
+		self.test_label = test_label
+		self.predicted_score = predicted_score
 
 
 	"""

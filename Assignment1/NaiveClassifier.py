@@ -98,7 +98,11 @@ class NaiveClassifier:
 		for x in label_index:
 			label_value = np.append(label_value, self.train_label[x])
 
-		return label_index,neighbors
+
+		label_index = label_index.tolist()
+		neighbors = neighbors.tolist()
+
+		return label_index , neighbors
 
 
 
