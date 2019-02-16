@@ -1,4 +1,7 @@
 
+import numpy as np
+
+
 class ClassificationMetrices:
 
 	"""
@@ -8,19 +11,29 @@ class ClassificationMetrices:
 		as parameter. It should also construct the confusion matrix 
 		and cache this information.
 	"""
-	def __init__(self, train_label, test_label,predicted_score):
+	def __init__(self, train_label, predicted_label,predicted_score):
+		
 		self.train_label = train_label
-		self.test_label = test_label
+		self.predicted_label = predicted_label
 		self.predicted_score = predicted_score
 
+
+		size = len(np.unique(self.train_label))
+		self.matrix = np.zeros([ size, size ])
+		
+		for x in range(len(self.train_label)):
+			i = self.train_label[x]
+			j = self.predicted_label[x]
+			self.matrix[i][j]+=1
 
 	"""
 	2. get_confusion_matrix_for_heatmap: 
 		Returns a 0−1 normalized confusion matrix.
 	"""
 	def get_confusion_matrix_for_heatmap(self):
-		pass
 
+		normalized_confusion_matrix = self.matrix / self.matrix.sum(axis=1)
+		return normalized_confusion_matrix
 
 
 	"""
@@ -29,18 +42,34 @@ class ClassificationMetrices:
 		It should return a value in the range 0 − 1.
 	"""
 	def calculate_accuracy(self):
-		pass
+		
+		count = 0
 
+		for i in range(len(self.predicted_label)):
+	  		if self.predicted_label[i] == self.train_label[i]:
+	  			count += 1
 
-
+		accuracy = float(count)/len(self.predicted_label)
+		
+		return accuracy
 
 	"""
 	4. calculate_precision:
 		Calculate and return the average precision. 
 	"""
 	def calculate_precision(self):
-		pass
 
+		precision = []
+
+		length = self.matrix.shape[0]
+		horizontal_sum = self.matrix.sum(axis=1)
+
+		for x in range(length):
+			precision.append ( self.matrix[x][x] / horizontal_sum[x] )
+
+		average_precision = np.mean(precision)
+
+		return average_precision
 
 
 	"""
@@ -48,9 +77,18 @@ class ClassificationMetrices:
 		Calculate and return the average recall. 
 	"""
 	def calculate_recall(self):
-		pass
 
+		recall = []
 
+		length = self.matrix.shape[0]
+		vertical_sum = self.matrix.sum(axis=0)
+
+		for x in range(length):
+			recall.append ( self.matrix[x][x] / vertical_sum[x] )
+
+		average_recall = np.mean(recall)
+
+		return average_recall
 
 	"""
 	6. calculate_f1:
