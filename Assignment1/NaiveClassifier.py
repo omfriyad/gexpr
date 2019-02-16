@@ -25,8 +25,8 @@ class NaiveClassifier:
 	"""
 
 	def extract_feature_from_single_image(self,img):
-		self.feature = self.feature(img)
-		return self.feature.extract_feature()
+		extractor = self.feature(img)
+		return extractor.extract_feature()
 
 
 	"""
@@ -34,8 +34,13 @@ class NaiveClassifier:
 	(number of images, number of channels, x dim, y dim) numpy array 
 	as parameter and return a (number of images, feature dim) array.
 	"""
-	def extract_feature_from_multiple_images(self):
-		pass
+	def extract_feature_from_multiple_images(self, img_vector):
+		features = np.zeros(img_vector.shape, dtype='object')
+		for x in range(img_vector.shape[0]):
+			temp_extractor = self.feature(img_vector[x])
+			features[x] = temp_extractor.extract_feature()
+
+		return features
 
 
 
