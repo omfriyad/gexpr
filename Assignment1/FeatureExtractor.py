@@ -128,7 +128,7 @@ class HoGExtractor(FeatureExtractor):
 
                 hist_vector[x // 8, y // 8] = self.block_histogram(mag_block, degree_block)
 
-        return hist_vector  # will return 8x16 vection from which we can work on 16x16 or 4x4 grid
+        return hist_vector  # will return 8x16 vector from which we can work on 16x16 or 4x4 grid
 
     def hog(self):
         return self.generate_per_block_histogram()  # dummy
