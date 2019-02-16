@@ -89,23 +89,13 @@ class NaiveClassifier:
 	"""
 	def classify_multiple_images(self,imgs):
 		
-		neighbors = np.array([])
-		label_index = np.array([])
-		label_value = np.array([])
+		neighbors = []
+		label_index = []
 
 		for x in imgs:
-			l,n = self.classify_single_image(x)
-			neighbors = np.append(neighbors,n)
-			label_index = np.append(label_index,l)
-
-		label_index = label_index.astype(int)
-
-		for x in label_index:
-			label_value = np.append(label_value, self.train_label[x])
-
-
-		label_index = label_index.tolist()
-		neighbors = neighbors.tolist()
+			label,neighbor = self.classify_single_image(x)
+			neighbors.append(neighbor)
+			label_index.append(label)
 
 		return label_index , neighbors
 
