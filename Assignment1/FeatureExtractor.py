@@ -65,7 +65,7 @@ class HoGExtractor(FeatureExtractor):
         self.img = img
 
     def extract_feature(self):
-        return self.hog()
+        return self.hog().reshape(-1)
 
     def gradient(self):
         """THis will return a same size of image gradient for HOG"""
@@ -122,29 +122,32 @@ class HoGExtractor(FeatureExtractor):
         return vector / np.sqrt(np.sum(vector ** 2))
 
     def generate_per_block_histogram(self):
-        hist_vector = np.zeros((8, 16, 9), dtype='float64')
+        hist_vector = np.zeros((16, 8, 9), dtype='float64')
         magnitude = self.magnitude()
         degree = self.direction()
         i = 0
-        for y in range(0, 128, 8):
-            for x in range(0, 64, 8):
+        for y in range(0, 64, 8):
+            for x in range(0, 128, 8):
                 mag_block = magnitude[x:x + 8, y:y + 8]
                 degree_block = degree[x:x + 8, y:y + 8]
+                # print('x - ' + str(x//8) + 'y - ' + str(y//8) +' ' + str(mag_block.shape))
                 hist_vector[x // 8, y // 8] = self.block_histogram(mag_block, degree_block)
+
         return hist_vector  # will return 8x16 vector from which we can work on 16x16 or 4x4 grid
 
     def normalizer(self):
         hits_vector = self.generate_per_block_histogram()
         vect_list = []
 
-        for y in range(0, 16, 2):
-            for x in range(0, 8, 2):
+        for y in range(0, 8, 2):
+            for x in range(0, 16, 2):
                 sliced_vect = hits_vector[x:x + 2, y:y + 2, :]
                 sliced_vect = sliced_vect.reshape(-1)  # forming 1D vector
                 vect_list.append(self.normalize_vector(sliced_vect))
 
-        return vect_list
+        return np.array(vect_list)
 
     def hog(self):
 
         return self.normalizer()  # dummy
+
