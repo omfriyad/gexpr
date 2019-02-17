@@ -1,21 +1,24 @@
 
 \documentclass[12pt,a4paper] {article}
 \usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{my_color}{RGB}{175, 228, 252}
 
 	\author
 	{	
 		\\ \\ \\ \\ 
-		Submitted by \\ \\
-		Omar Faruk Riyad \\ 
-		Arif Ur Rahaman Chowdhury Suhan
+		\textbf{ {\LARGE Submitted by}} \\ \\ \\
+		{\LARGE Omar Faruk Riyad } \\  \\
+		{\LARGE Arif Ur Rahaman Chowdhury Suhan}
 	}
 	\title
 	{
-		CSE468 Report
+		\textbf{ {\Huge	CSE468 Report} }
 	}
-
+	
 	\date{
-		Duration : Last whole week
+		.\\
+		\textbf{6 Falgun,1425}
 	}
 
 
@@ -23,8 +26,9 @@
 \begin{document}
 
 	\maketitle
+	\pagecolor{my_color}
 	\pagebreak
-
+	\pagecolor{white}
 
 	%Overview of your work and results
 	\section{Introduction:}
@@ -33,7 +37,7 @@
 	Computer Vision started a new era.
 	\\ \\
 	The report is focused on the feature extraction rather than developing \\ a classification model.Using 
-	various kind of features like Color Histogram, \\ Histogram of Gradient and Scale Invariant Feature Transform, 
+	various kind of features like \textbf{Color Histogram}, \\ \textbf{Histogram of Gradient} and \textbf{Scale Invariant Feature Transform} 
 	some collected datasets(images) are classified.
 	
 	
@@ -63,9 +67,9 @@
 	Here M matrix contains 2 rows and 3 columns. \\
 	In computer vision, there are many types of matrics like: 
 	\begin{itemize}
-	  \item Fundamental matrix: A 3x3 matrix which relates corresponding points in stereo images in pixel coordinates.
-	  \item Essential matrix: A 3x3 matrix that also relates corresponding points but normalized pixel coordinates.
-	  \item Camera matrix: A 3x4 matrix describes the mapping of a pinhole camera from 3D points in the world to 2D points in an image.
+	  \item \textbf{Fundamental matrix:} A 3x3 matrix which relates corresponding points in stereo images in pixel coordinates.
+	  \item \textbf{Essential matrix:} A 3x3 matrix that also relates corresponding points but normalized pixel coordinates.
+	  \item \textbf{Camera matrix:} A 3x4 matrix describes the mapping of a pinhole camera from 3D points in the world to 2D points in an image.
 	\end{itemize}
 
 
@@ -88,16 +92,52 @@
 
 	%Description of the data set, how it was partitioned, how the comparison of the performance of the different features were done and what metrics were calculated.
 	\section{Experimental setup:}
+	For data set \textbf{CIFAR-10} is used.It consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. 
+	There are 50000 training images and 10000 test images. \\
 
+	The dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain more images from one class than another. Between them, the training batches contain exactly 5000 images from each class. \\
 
+	In the features, \textbf{Color Histogram} is faster but colors sometimes effect the classification.For example: white colored cat sometimes 
+	can't be classified if train dataset is blackish cat. \\
+
+	\textbf{HOG} and \textbf{SIFT} both are based on first order image gradients.But while HOG provides positional data, SIFT doesn't.From the point of
+	descriptor, it can be said that HOG is a image descriptor but SIFT is keypoint one. 
+
+	\pagebreak
+	From performance perspective view, Color Histogram is much faster than HOG or SIFT.But for better dectection.
 
 
 	%Presentation of the results in a sensible and readable format. Just presentation is not enough. You will need to analyze the results, especially failure cases on a per-feature basis and provide your justified insights why things work and why things do not work.
 	\section{Results and discussion:}
 
+	\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
+		\hline
+		\multicolumn{4}{|c|}{ Dataset: Cifar 10 } \\
+		\hline
+		 	Feature Name & Classifier Name & Accuracy & Comment\\
+		\hline
+			Color Histogram & 1NN & 0.5 & --- \\
+			HOG             & 1NN & NAN & --- \\
+			SIFT            & 1NN & NAN & --- \\
+		\hline
+	\end{tabular}
+	\\ \\
+	Color Histogram is basically on color frequency in range 0-255.It deals with image color.But it will not work always.Specially when
+	Image with RGB value.For that case different object can have almost similliar type color histogram.Because for RGB histogram in feature
+	extractor,the metrics is the average of the Red,Green and blue histogram. \\
+
+	For HOG, it is known that it can extract global feature.And SIFT is used for extracting local features.In global feature, a single 
+	metrics can give whole information of an image by using HOG. Scale and rotation invariant is followed by SIFT, HOG doesn't.Suppose 
+	our classifier wants to detect a walking human.If the human is moving left to right, then HOG can easily detect. But if the human
+	comes near to camera and again back the starting position, then HOG is useless. SIFT can perform there better.
+
 
 	%The conclusion of your report
 	\section{Conclusion:}
+	As the reports shows , the classification is done on CIFAR-10 using just 1NN classifier. Instead of focusing learning model,it was
+	always concern about the feature extraction. The best use of feature extraction varies dataset by dataset. For uniform color based 
+	dataset, color histogram will be better.Detecting object specially human if the size is invariant , then HOG is suitable. But when
+	the object is moving or coming near and far, SIFT will be the perfect choice. 
 
 \end{document}
 

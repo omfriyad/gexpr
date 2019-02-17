@@ -82,13 +82,12 @@ def main(file_name):
 
 if __name__  == "__main__":
 
-	while(1):
-		if len(sys.argv) == 2:
-			main(sys.argv[1])
-			exit(0)
-		else:
-			print("Dataset is not found!\n")
-			print("Try Again\n")
+	if len(sys.argv) == 2:
+		main(sys.argv[1])
+		exit(0)
+	else:
+		print("Dataset is not found!\n")
+		print("Try Again\n")
 
 
 
