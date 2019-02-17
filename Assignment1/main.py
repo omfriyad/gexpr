@@ -66,17 +66,26 @@ def main2():
 	# y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
 	# y_score = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
 
-	y_true = [ 1, 0, 1, 1, 0 ]
-	y_pred = [ 0, 0, 1, 1, 0 ]
-	y_score =[ 0, 0, 1, 1, 0 ]
+	y_true = [0,1,1,1,0]
+	y_pred = [1,0,0,1,0]
+
+	# y_true = [1,2,3,4,5,1,2,1,1,4,1]
+	# y_pred = [1,2,3,4,5,1,2,1,1,4,5]
+
+	y_score = [1,2,3,4,5,1,2,1,1,4,1]
 
 	classify_class = ClassificationMetrices(y_true,y_pred,y_score)
-	#a = classify_class.get_confusion_matrix_for_heatmap()
-	#a = classify_class.calculate_accuracy()
-	a = classify_class.calculate_precision()
-	b = classify_class.calculate_recall()
-	print(a," || ",b)
+	confusion_matrix = classify_class.get_confusion_matrix_for_heatmap()
+	accuracy = classify_class.calculate_accuracy()
+	precision = classify_class.calculate_precision()
+	recall = classify_class.calculate_recall()
+	f1 = classify_class.calculate_f1()
 
+	print("Confusion Matrix\n", confusion_matrix)
+	print("Accuracy: ", accuracy)
+	print("Average Precision: ",precision)
+	print("Average Recall: ",recall)
+	print("Harmonic Mean: ",f1)
 
 if __name__  == "__main__":
 	main2()
