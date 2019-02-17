@@ -78,7 +78,7 @@ class NaiveClassifier:
 			label_index = np.append(label_index,prediction[x])
 
 		label_index = label_index.astype(int)
-		label_value = self.train_label[label_index]
+		label_value = self.train_label[label_index[0]]
 
 		return label_value,score
 		
@@ -97,7 +97,7 @@ class NaiveClassifier:
 			scores.append(neighbor)
 			label_index = np.append(label_index,label)
 
-		label_index = label_index.astype(int)
+		# label_index = label_index.astype(int)
 		return label_index.tolist() , scores
 
 

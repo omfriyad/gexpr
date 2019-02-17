@@ -14,19 +14,23 @@ class ClassificationMetrices:
 	def __init__(self, train_label, predicted_label,predicted_score):
 		
 		self.train_label = train_label
-		self.predicted_label = predicted_label
+		self.predicted_label = [int(i) for i in predicted_label]
 		self.predicted_score = predicted_score
 
 		temp_matrix = np.unique(self.train_label)
 		size = len(np.unique(self.train_label))
 		self.matrix = np.zeros([ size, size ])
 
-		self.train_label = self.train_label - temp_matrix[0]
-		self.predicted_label = self.predicted_label - temp_matrix[0]
+		dict = {}
+		count = 0
+
+		for x in temp_matrix:
+			dict[x]= count
+			count+=1
 
 		for x in range(len(self.train_label)):
-			i = self.train_label[x]
-			j = self.predicted_label[x]
+			i = dict[ self.train_label[x] ]
+			j = dict[ self.predicted_label[x] ]
 			self.matrix[i][j] += 1
 
 	"""
@@ -35,7 +39,7 @@ class ClassificationMetrices:
 	"""
 	def get_confusion_matrix_for_heatmap(self):
 
-		normalized_confusion_matrix = self.matrix / self.matrix.sum(axis=1)
+		normalized_confusion_matrix = np.nan_to_num(self.matrix / self.matrix.sum(axis=1))
 		self.matrix = normalized_confusion_matrix
 		return normalized_confusion_matrix
 
@@ -59,7 +63,9 @@ class ClassificationMetrices:
 	"""
 	def calculate_precision(self):
 
-		precision = np.diag(self.matrix) / np.sum(self.matrix, axis = 0)
+		#precision = np.nan_to_num ( np.diag(self.matrix) / np.sum(self.matrix, axis = 0) )
+		out = np.ones(len(self.matrix[0]))
+		precision = np.divide( np.diag(self.matrix), np.sum(self.matrix, axis = 0), out=out, where=np.sum(self.matrix, axis = 0)!=0)
 		average_precision = np.mean(precision)
 
 		return average_precision
@@ -71,7 +77,7 @@ class ClassificationMetrices:
 	"""
 	def calculate_recall(self):
 
-		recall = np.diag(self.matrix) / np.sum(self.matrix, axis = 1)
+		recall = np.nan_to_num( np.diag(self.matrix) / np.sum(self.matrix, axis = 1))
 		average_recall = np.mean(recall)
 
 		return average_recall
@@ -86,7 +92,7 @@ class ClassificationMetrices:
 		precision = self.calculate_precision()
 		recall = self.calculate_recall()
 
-		f1 = (2*precision*recall) / (precision+recall)
+		f1 = np.nan_to_num( (2*precision*recall) / (precision+recall))
 
 		return f1
 

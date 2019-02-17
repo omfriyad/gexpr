@@ -1,9 +1,11 @@
+import sys
+import pickle
 import numpy as np
 from matplotlib import pyplot as plt
 
 from NaiveClassifier import NaiveClassifier
 from FeatureExtractor import FeatureExtractor
-from FeatureExtractor import ColourHistogramExtractor
+from FeatureExtractor import ColourHistogramExtractor,HoGExtractor
 from ClassificationMetrices import ClassificationMetrices
 
 
@@ -11,59 +13,58 @@ from ClassificationMetrices import ClassificationMetrices
 main driver file
 """
 
-def main():
+def main(file_name):
 
+	#cifar 10 data 
+	def unpickle(file):
+	    with open(file, 'rb') as fo:
+	        data = pickle.load(fo, encoding ='latin1')
+	    return data
 
 	def data_process():
-		# data 
-		data_set = [ "horse1","horse2","horse3",
-		            "cat1","cat2"  ]
-		imgs = []
+		# data_set
+		data_set = unpickle(file_name)
 
-		for i in range(len(data_set)):
-		    temp = plt.imread("./data/"+data_set[i]+".png")
-		    imgs.append(temp)
-		imgs = np.array( imgs )
-
+		labels = data_set['labels']
+		data = data_set['data']
+		filenames=data_set['filenames']
 
 		#number of images, number of channels, x dim, y dim
-		imgs = imgs.transpose(0,3,1,2)
-		train_img = imgs
-		test_img = imgs[3]
+		data = np.reshape(data, (10000, 3, 32, 32))
+		#print(data.shape)
+		train_img = data[:10]
+		test_img = data[10:20]
 
 		#training label
-		train_label = np.array([0,0,0,1,1])
-		test_label = np.array([0,1,1])
+		train_label = labels[:10]
+		test_label = labels[10:20]
 
 		return train_img, train_label, test_img, test_label
 
 
-	#horse = 0 , cat = 1
-	class_id =["horse","cat"]
 	train_img, train_label, test_img, test_label = data_process()
 
 	#extractor object init
 	feature1 = ColourHistogramExtractor
+	#feature1 = HoGExtractor
 
 	#naive classifier
 	img_class = NaiveClassifier( train_img, train_label, feature1)
-	#feature_extracted = img_class.extract_feature_from_single_image( imgs[0] )
+	#feature_extracted = img_class.extract_feature_from_single_image(train_img[4])
 
 	#single images
-	# print("For single images")
-	# predicted_label, score = img_class.classify_single_image(test_img)
-	# print("Class: ",predicted_label," -> ",class_id[predicted_label[0]])
-	# print("Score: ",score)
+	print("For single images")
+	predicted_label,predicted_score = img_class.classify_single_image(test_img[0])
+	print("Class: ",predicted_label)
+	print("Score: ",predicted_score)
 
 	#multiple images
 	print("\nFor multiple images")
-	test_img = train_img[2:5]
 	predicted_label, predicted_score = img_class.classify_multiple_images(test_img)
 
 	for x in range(0,len(predicted_score)):
-		print("Class: ",predicted_label[x]," -> ",class_id[predicted_label[x]])
+		print("Prediction Label: ",predicted_label[x])
 		print("Score: ",predicted_score[x])
-
 
 	#finding accuracy , precision, recall , harmonic mean
 	classify_class = ClassificationMetrices(test_label,predicted_label,predicted_score)
@@ -79,11 +80,15 @@ def main():
 	print("Average Recall: ",recall)
 	print("Harmonic Mean: ",f1)
 
-
-
 if __name__  == "__main__":
 
-	main()
+	while(1):
+		if len(sys.argv) == 2:
+			main(sys.argv[1])
+			exit(0)
+		else:
+			print("Dataset is not found!\n")
+			print("Try Again\n")
 
 
 
