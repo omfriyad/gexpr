@@ -57,7 +57,7 @@ class NaiveClassifier:
 		    return np.sqrt(distance)
 		
 		distances = np.array([])
-		neighbors = np.array([])
+		score = np.array([])
 		label_index = np.array([])
 
 		img = self.feature(img).extract_feature()
@@ -74,13 +74,13 @@ class NaiveClassifier:
 		k=1
 
 		for x in range(k):
-			neighbors = np.append(neighbors,distances[x])
+			score = np.append(score,distances[x])
 			label_index = np.append(label_index,prediction[x])
 
 		label_index = label_index.astype(int)
-		label_value = self.train_label[label_index][0]
+		label_value = self.train_label[label_index]
 
-		return label_value,neighbors
+		return label_value,score
 		
 
 	"""
@@ -89,15 +89,16 @@ class NaiveClassifier:
 	"""
 	def classify_multiple_images(self,imgs):
 		
-		neighbors = []
-		label_index = []
+		scores = []
+		label_index = np.array([])
 
 		for x in imgs:
 			label,neighbor = self.classify_single_image(x)
-			neighbors.append(neighbor)
-			label_index.append(label)
+			scores.append(neighbor)
+			label_index = np.append(label_index,label)
 
-		return label_index , neighbors
+		label_index = label_index.astype(int)
+		return label_index.tolist() , scores
 
 
 

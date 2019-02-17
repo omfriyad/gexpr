@@ -151,3 +151,32 @@ class HoGExtractor(FeatureExtractor):
 
         return self.normalizer()  # dummy
 
+
+
+class SIFTBoVWExtractor(FeatureExtractor):
+
+    def __init__(self,imgs):
+        pass
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

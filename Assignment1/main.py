@@ -13,26 +13,34 @@ main driver file
 
 def main():
 
-	# data 
-	arr = [ "horse1","horse2","horse3",
-	            "cat1","cat2"  ]
+
+	def data_process():
+		# data 
+		data_set = [ "horse1","horse2","horse3",
+		            "cat1","cat2"  ]
+		imgs = []
+
+		for i in range(len(data_set)):
+		    temp = plt.imread("./data/"+data_set[i]+".png")
+		    imgs.append(temp)
+		imgs = np.array( imgs )
+
+
+		#number of images, number of channels, x dim, y dim
+		imgs = imgs.transpose(0,3,1,2)
+		train_img = imgs
+		test_img = imgs[3]
+
+		#training label
+		train_label = np.array([0,0,0,1,1])
+		test_label = np.array([0,1,1])
+
+		return train_img, train_label, test_img, test_label
+
+
+	#horse = 0 , cat = 1
 	class_id =["horse","cat"]
-	imgs = []
-
-	for i in range(len(arr)):
-	    temp = plt.imread("./data/"+arr[i]+".png")
-	    imgs.append(temp)
-	imgs = np.array( imgs )
-
-
-	#number of images, number of channels, x dim, y dim
-	train_img = imgs.transpose(0,3,1,2)
-	imgs = train_img
-
-
-	#training label
-	train_label = np.array([0,0,0,1,1])
-
+	train_img, train_label, test_img, test_label = data_process()
 
 	#extractor object init
 	feature1 = ColourHistogramExtractor
@@ -42,39 +50,23 @@ def main():
 	#feature_extracted = img_class.extract_feature_from_single_image( imgs[0] )
 
 	#single images
-	print("For single images")
-	test_img = imgs[1]
-	prediction_label, score = img_class.classify_single_image(test_img)
-	print("Class: ",prediction_label," -> ",class_id[prediction_label])
-	#print(prediction_label)
-	print("Score: ",score[0])
-
+	# print("For single images")
+	# predicted_label, score = img_class.classify_single_image(test_img)
+	# print("Class: ",predicted_label," -> ",class_id[predicted_label[0]])
+	# print("Score: ",score)
 
 	#multiple images
 	print("\nFor multiple images")
-	test_img = imgs[2:5]
-	prediction_label, score = img_class.classify_multiple_images(test_img)
+	test_img = train_img[2:5]
+	predicted_label, predicted_score = img_class.classify_multiple_images(test_img)
 
-	for x in range(0,len(score)):
-		print("Class: ",prediction_label[x]," -> ",class_id[prediction_label[x]])
-		print("Score: ",score[x])
+	for x in range(0,len(predicted_score)):
+		print("Class: ",predicted_label[x]," -> ",class_id[predicted_label[x]])
+		print("Score: ",predicted_score[x])
 
 
-def main2():
-
-	# y_true = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
-	# y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
-	# y_score = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
-
-	y_true = [1,1,0,0,0]
-	y_pred = [1,1,0,0,1]
-
-	# y_true = [1,2,3,4,5,1,2,1,1,4,1]
-	# y_pred = [1,2,3,4,5,1,2,1,1,4,5]
-
-	y_score = [1,2,3,4,5,1,2,1,1,4,1]
-
-	classify_class = ClassificationMetrices(y_true,y_pred,y_score)
+	#finding accuracy , precision, recall , harmonic mean
+	classify_class = ClassificationMetrices(test_label,predicted_label,predicted_score)
 	confusion_matrix = classify_class.get_confusion_matrix_for_heatmap()
 	accuracy = classify_class.calculate_accuracy()
 	precision = classify_class.calculate_precision()
@@ -87,10 +79,11 @@ def main2():
 	print("Average Recall: ",recall)
 	print("Harmonic Mean: ",f1)
 
+
+
 if __name__  == "__main__":
-	main2()
 
-
+	main()
 
 
 
