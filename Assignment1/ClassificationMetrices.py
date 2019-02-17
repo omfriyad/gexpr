@@ -17,14 +17,17 @@ class ClassificationMetrices:
 		self.predicted_label = predicted_label
 		self.predicted_score = predicted_score
 
-
+		temp_matrix = np.unique(self.train_label)
 		size = len(np.unique(self.train_label))
 		self.matrix = np.zeros([ size, size ])
-		
+
+		self.train_label = self.train_label - temp_matrix[0]
+		self.predicted_label = self.predicted_label - temp_matrix[0]
+
 		for x in range(len(self.train_label)):
 			i = self.train_label[x]
 			j = self.predicted_label[x]
-			self.matrix[i][j]+=1
+			self.matrix[i][j] += 1
 
 	"""
 	2. get_confusion_matrix_for_heatmap: 
@@ -50,7 +53,19 @@ class ClassificationMetrices:
 	  			count += 1
 
 		accuracy = float(count)/len(self.predicted_label)
+
+		# accuracy = 0
+		# total_pos = 0
+		# length = len(self.matrix)
+		# total_sum = np.sum(self.matrix)
+
+		# temp_matrix = self.get_confusion_matrix_for_heatmap()
 		
+		# for x in range(length):
+		# 	total_pos+=temp_matrix[x][x]
+		
+		# accuracy = total_pos/ total_sum
+
 		return accuracy
 
 	"""
@@ -58,6 +73,8 @@ class ClassificationMetrices:
 		Calculate and return the average precision. 
 	"""
 	def calculate_precision(self):
+
+		self.matrix = self.get_confusion_matrix_for_heatmap()
 
 		precision = []
 
@@ -71,12 +88,13 @@ class ClassificationMetrices:
 
 		return average_precision
 
-
 	"""
 	5. calculate_recall:
 		Calculate and return the average recall. 
 	"""
 	def calculate_recall(self):
+
+		self.matrix = self.get_confusion_matrix_for_heatmap()
 
 		recall = []
 
@@ -95,9 +113,14 @@ class ClassificationMetrices:
 		Calculate and return the F1 score.
 	"""
 	def calculate_f1(self):
-		pass
+		
+		# f1 = (2PR)/ (P+R)
+		precision = self.calculate_precision()
+		recall = self.calculate_recall()
 
+		f1 = (2*precision*recall) / (precision+recall)
 
+		return f1
 
 
 	"""
@@ -106,7 +129,7 @@ class ClassificationMetrices:
 		then calculate and return the ROC values in a list of lists. 
 		A list per threshold value per class.
 	"""
-	def calculate_roc_values(self):
+	def calculate_roc_values(self,thresholds):
 		pass
 
 
