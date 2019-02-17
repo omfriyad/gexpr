@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import arctan2
 from matplotlib import pyplot as plt
+from skimage.color import rgb2gray
 
 class FeatureExtractor(object):
 
@@ -38,21 +39,24 @@ class ColourHistogramExtractor(FeatureExtractor):
         self.img = self.img*255
         self.img = self.img.astype(int)
 
-        r,g,b = self.img[0],self.img[1],self.img[2]
+        grayscale = rgb2gray(original)
+        grayscale = self.fre(grayscale)
+        # r,g,b = self.img[0],self.img[1],self.img[2]
+        # freR = self.fre(r)
+        # freG = self.fre(g)
+        # freB = self.fre(b)
 
-        freR = self.fre(r)
-        freG = self.fre(g)
-        freB = self.fre(b)
-
-        freFinal = np.maximum.reduce([freR,freG,freB])
+        #freFinal = np.maximum.reduce([freR,freG,freB])
 
         # plt.plot(freR,color="Red")
         # plt.plot(freG,color="Green")
         # plt.plot(freB,color="Blue")
         # plt.plot(freFinal,color="Black")
-
+        # plt.plot(grayscale)
         # plt.ylabel('Frequency')
         # plt.show()
+
+        freFinal = grayscale
 
         return freFinal
 

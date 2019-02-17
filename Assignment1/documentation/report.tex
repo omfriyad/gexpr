@@ -1,5 +1,6 @@
 
 \documentclass[12pt,a4paper] {article}
+\usepackage{amsmath}
 
 	\author
 	{	
@@ -27,34 +28,68 @@
 
 	%Overview of your work and results
 	\section{Introduction:}
-	Human visualization is a sweet gift from The Almighty Creator.And we know it can't be perfectly replicated 
+	Human visualization is a sweet gift from The Almighty Creator.And it can't be perfectly replicated 
 	into a thing so that a machine can see.But the blind saw dream and we got hope.After the birth of Machine Learning, 
 	Computer Vision started a new era.
 	\\ \\
-	In this report, we basically focused on the feature extraction rather than developing a classification model.
-	various kind of features like Color Histogram,Histogram of Gradient andScale Invariant Feature Transform
+	The report is focused on the feature extraction rather than developing \\ a classification model.Using 
+	various kind of features like Color Histogram, \\ Histogram of Gradient and Scale Invariant Feature Transform, 
+	some collected datasets(images) are classified.
 	
 	
 	%Detailed, wherever possible mathematical, description of 1-NN, Metrics, Features.
 	\section{Literature Review:}
 
 	\subsection{1-NN:}
-	It is a simple algorithm for single classification.
-	Mathematically, a matrix is represented as:
-
+	The 1 Nearest Neighbor classifier is the simple and one of the oldest methods known.It's 
+	estimation is often low but the variance is high.The 1NN classifier idea is 
+	extremely simple: to classify \textbf{X} find its closest neighbor among the training
+	points (call it \textbf{Y}) and assign to \textbf{X} the label of \textbf{Y}. 
+	\\ \\
+	The good thing about 1NN is that it is conceptually simple and does not require learning model.Only 
+	few dataset is enough for it. Also it works for low dimensional complex decision surfaces.But 
+	for fixed,\textbf{K} it is asymptotically suboptimal,not by much.It's classification is slow and 
+	suffers a lot from the curse of dimensionality.
 
 	\subsection{Metrics:}
-	A matrix is an entity composed of components arranged in rows and columns. 
+	A matrics are 2D form of an entity composed of components arranged in rows and columns. 
+	\begin{gather}
+		M = 
+ 		\begin{bmatrix} 
+ 			m_{00} & m_{01} & m_{02}\\ 
+ 			m_{10} & m_{11} & m_{12}
+ 		\end{bmatrix}
+	\end{gather}
+	Here M matrix contains 2 rows and 3 columns. \\
+	In computer vision, there are many types of matrics like: 
+	\begin{itemize}
+	  \item Fundamental matrix: A 3x3 matrix which relates corresponding points in stereo images in pixel coordinates.
+	  \item Essential matrix: A 3x3 matrix that also relates corresponding points but normalized pixel coordinates.
+	  \item Camera matrix: A 3x4 matrix describes the mapping of a pinhole camera from 3D points in the world to 2D points in an image.
+	\end{itemize}
 
 
 	\subsection{Features:}
-	A Feature describes charactristics or information present in an image.
+	A feature is a 1D vector that aims to represent an object or a part of an object in a compact.
+	This means that features for different objects or object parts must be different and just by looking at the feature, 
+	one must be able to tell what object that is. That feature not change for different appearances of the object, 
+	which may be due to lighting, shadows, pose, etc. Also, one does a lot of computations with features, 
+	which is why it's size must be small.
 
-	Most algorithms in Computer Vision strive to identify features that can be used, for instance, for recognition or classification. A feature can also be a particular combination of simpler features, with some associated metrics and geometries. For instance, many face recognition algorithms are based on locating the main features of a face (eyes, nose, mouth, etc.) in particular dispositions and relative proportions; a face thus recognized becomes a feature itself (with associated attributes) that can be used to perform similarity searches for the face in question in a database.
+	Most algorithms in Computer Vision strive to identify features that can be used, for instance, for recognition or classification. 
+	A feature can also be a particular combination of simpler features, with some associated metrics and geometries.
+	They can be used for : 
+	\begin{itemize}
+		\item Interest point detection
+		\item Descriptors and
+		\item Matching of an image
+	\end{itemize}
 	
 
 	%Description of the data set, how it was partitioned, how the comparison of the performance of the different features were done and what metrics were calculated.
 	\section{Experimental setup:}
+
+
 
 
 	%Presentation of the results in a sensible and readable format. Just presentation is not enough. You will need to analyze the results, especially failure cases on a per-feature basis and provide your justified insights why things work and why things do not work.
@@ -63,8 +98,6 @@
 
 	%The conclusion of your report
 	\section{Conclusion:}
-
-
 
 \end{document}
 
