@@ -36,6 +36,7 @@ class ClassificationMetrices:
 	def get_confusion_matrix_for_heatmap(self):
 
 		normalized_confusion_matrix = self.matrix / self.matrix.sum(axis=1)
+		self.matrix = normalized_confusion_matrix
 		return normalized_confusion_matrix
 
 
@@ -46,25 +47,9 @@ class ClassificationMetrices:
 	"""
 	def calculate_accuracy(self):
 		
-		count = 0
-
-		for i in range(len(self.predicted_label)):
-	  		if self.predicted_label[i] == self.train_label[i]:
-	  			count += 1
-
-		accuracy = float(count)/len(self.predicted_label)
-
-		# accuracy = 0
-		# total_pos = 0
-		# length = len(self.matrix)
-		# total_sum = np.sum(self.matrix)
-
-		# temp_matrix = self.get_confusion_matrix_for_heatmap()
-		
-		# for x in range(length):
-		# 	total_pos+=temp_matrix[x][x]
-		
-		# accuracy = total_pos/ total_sum
+		total_sum = np.sum(self.matrix)							#sum of whole matrix
+		diag_sum = np.sum(np.diag(self.matrix))					#sum of diagonal matrix
+		accuracy = diag_sum/ total_sum							#getting accuracy
 
 		return accuracy
 
@@ -74,19 +59,11 @@ class ClassificationMetrices:
 	"""
 	def calculate_precision(self):
 
-		self.matrix = self.get_confusion_matrix_for_heatmap()
-
-		precision = []
-
-		length = self.matrix.shape[0]
-		horizontal_sum = self.matrix.sum(axis=1)
-
-		for x in range(length):
-			precision.append ( self.matrix[x][x] / horizontal_sum[x] )
-
+		precision = np.diag(self.matrix) / np.sum(self.matrix, axis = 0)
 		average_precision = np.mean(precision)
 
 		return average_precision
+
 
 	"""
 	5. calculate_recall:
@@ -94,16 +71,7 @@ class ClassificationMetrices:
 	"""
 	def calculate_recall(self):
 
-		self.matrix = self.get_confusion_matrix_for_heatmap()
-
-		recall = []
-
-		length = self.matrix.shape[0]
-		vertical_sum = self.matrix.sum(axis=0)
-
-		for x in range(length):
-			recall.append ( self.matrix[x][x] / vertical_sum[x] )
-
+		recall = np.diag(self.matrix) / np.sum(self.matrix, axis = 1)
 		average_recall = np.mean(recall)
 
 		return average_recall
